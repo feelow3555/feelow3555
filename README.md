@@ -125,5 +125,45 @@ focus      →  structure · responsibility · verification
 <br/>
 
 <div align="center">
-  <sub>live data · generated automatically · orange mode</sub>
+
+### LIVE DEVELOPER DASHBOARD
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./assets/dashboard-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="./assets/dashboard-light.svg">
+  <img width="100%" alt="live developer dashboard" src="./assets/dashboard-dark.svg">
+</picture>
+
+<br/>
+
+### RECENT COMMITS
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./assets/commits-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="./assets/commits-light.svg">
+  <img width="100%" alt="recent commits" src="./assets/commits-dark.svg">
+</picture>
+
+<br/>
+
+### CODEBASE MAP
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./assets/codebase-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="./assets/codebase-light.svg">
+  <img width="100%" alt="codebase map" src="./assets/codebase-dark.svg">
+</picture>
+
+<br/>
+
+### SYSTEM MAP
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./assets/system-map-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="./assets/system-map-light.svg">
+  <img width="100%" alt="system map" src="./assets/system-map-dark.svg">
+</picture>
+
 </div>
+
+<br/>
