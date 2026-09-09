@@ -63,7 +63,7 @@ focus      →  structure · responsibility · verification
 
 <td width="260" height="100" align="center" valign="middle">
 
-<a href="VEGANING_URL">
+<a href="https://github.com/feelow3555/veganing-backend">
   <img src="./assets/veganing-logo.png" width="205" alt="VEGANING"/>
 </a>
 
@@ -71,7 +71,7 @@ focus      →  structure · responsibility · verification
 
 <td width="260" height="100" align="center" valign="middle">
 
-<a href="VERANDA_URL">
+<a href="https://github.com/VerandaFarmer">
   <img src="./assets/veranda-logo.png" width="210" alt="VERANDA FARMER"/>
 </a>
 
