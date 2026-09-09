@@ -48,76 +48,56 @@ focus      →  structure · responsibility · verification
 
 ### FEATURED PROJECTS
 
+<br/>
+
+<table>
+<tr>
+
+<td width="250" align="center" valign="bottom">
+
 <a href="https://github.com/S-warm/BE_AI_Framework">
-  <img src="./assets/swarm-logo.png" width="72" alt="SWARM"/>
-</a>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<a href="VEGANING_URL">
-  <img src="./assets/veganing-logo.png" width="72" alt="VEGANING"/>
-</a>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<a href="VERANDA_URL">
-  <img src="./assets/veranda-logo.png" width="72" alt="VERANDA FARMER"/>
+<img src="./assets/swarm-logo.png" width="150" height="55" alt="SWARM"/>
 </a>
 
 <br/><br/>
 
-<a href="https://github.com/S-warm/BE_AI_Framework">
-  <img src="https://img.shields.io/badge/SWARM-AI%20UX%20SIMULATION-0D1117?style=for-the-badge&labelColor=161B22&color=FF7A00" alt="SWARM"/>
-</a>
-&nbsp;
+<img src="https://img.shields.io/badge/SWARM-161B22?style=flat-square" height="25"/>
+<img src="https://img.shields.io/badge/AI_UX_SIMULATION-FF7A00?style=flat-square" height="25"/>
+
+</td>
+
+
+<td width="250" align="center" valign="bottom">
+
 <a href="VEGANING_URL">
-  <img src="https://img.shields.io/badge/VEGANING-AI%20BACKEND-0D1117?style=for-the-badge&labelColor=161B22&color=FF7A00" alt="VEGANING"/>
-</a>
-&nbsp;
-<a href="VERANDA_URL">
-  <img src="https://img.shields.io/badge/VERANDA%20FARMER-ON--DEVICE%20AI-0D1117?style=for-the-badge&labelColor=161B22&color=FF7A00" alt="VERANDA FARMER"/>
+<img src="./assets/veganing-logo.png" width="150" height="55" alt="VEGANING"/>
 </a>
 
 <br/><br/>
 
-<sub>
-SWARM · Cognitive UX Simulation &nbsp;&nbsp;│&nbsp;&nbsp;
-VEGANING · Spring AI Backend &nbsp;&nbsp;│&nbsp;&nbsp;
-VERANDA FARMER · On-device AI Smart Farm
-</sub>
+<img src="https://img.shields.io/badge/VEGANING-161B22?style=flat-square" height="25"/>
+<img src="https://img.shields.io/badge/AI_BACKEND-FF7A00?style=flat-square" height="25"/>
+
+</td>
+
+
+<td width="250" align="center" valign="bottom">
+
+<a href="VERANDA_URL">
+<img src="./assets/veranda-logo.png" width="150" height="55" alt="VERANDA FARMER"/>
+</a>
+
+<br/><br/>
+
+<img src="https://img.shields.io/badge/VERANDA_FARMER-161B22?style=flat-square" height="25"/>
+<img src="https://img.shields.io/badge/ON--DEVICE_AI-FF7A00?style=flat-square" height="25"/>
+
+</td>
+
+</tr>
+</table>
 
 </div>
-
-<br/>
-
-<br/>
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./assets/dashboard-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="./assets/dashboard-light.svg">
-  <img width="100%" alt="live developer dashboard" src="./assets/dashboard-dark.svg">
-</picture>
-
-<br/>
-
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./assets/commits-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="./assets/commits-light.svg">
-  <img width="100%" alt="recent commits" src="./assets/commits-dark.svg">
-</picture>
-
-<br/>
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./assets/codebase-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="./assets/codebase-light.svg">
-  <img width="100%" alt="codebase map" src="./assets/codebase-dark.svg">
-</picture>
-
-<br/>
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./assets/system-map-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="./assets/system-map-light.svg">
-  <img width="100%" alt="system map" src="./assets/system-map-dark.svg">
-</picture>
 
 <br/>
 
