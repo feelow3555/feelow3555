@@ -52,6 +52,30 @@ focus      →  structure · responsibility · verification
 
 <br/>
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./assets/commits-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="./assets/commits-light.svg">
+  <img width="100%" alt="recent commits" src="./assets/commits-dark.svg">
+</picture>
+
+<br/>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./assets/codebase-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="./assets/codebase-light.svg">
+  <img width="100%" alt="codebase map" src="./assets/codebase-dark.svg">
+</picture>
+
+<br/>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./assets/system-map-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="./assets/system-map-light.svg">
+  <img width="100%" alt="system map" src="./assets/system-map-dark.svg">
+</picture>
+
+<br/>
+
 <div align="center">
 
 ### CONTRIBUTION GAME
