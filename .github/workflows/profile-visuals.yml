@@ -1,43 +1,49 @@
-name: Profile visuals
+name: profile
 
 on:
   schedule:
     - cron: "15 0 * * *"
   workflow_dispatch:
   push:
-    branches:
-      - main
+    branches: [main]
+    paths:
+      - "scripts/**"
+      - ".github/workflows/profile.yml"
 
 permissions:
   contents: write
 
 jobs:
-  isocalendar:
+  dashboard:
     runs-on: ubuntu-latest
     steps:
-      - name: Generate isometric contribution calendar
-        uses: lowlighter/metrics@latest
-        with:
-          filename: assets/isocalendar.svg
-          token: ${{ secrets.METRICS_TOKEN }}
-          base: ""
-          plugin_isocalendar: yes
-          plugin_isocalendar_duration: full-year
-          config_timezone: Asia/Seoul
+      - uses: actions/checkout@v4
+
+      - name: Generate live dashboard + recent activity
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PROFILE_USER: feelow3555
+        run: python3 scripts/profile.py
+
+      - name: Commit generated profile
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md assets/dashboard-dark.svg assets/dashboard-light.svg
+          git diff --cached --quiet || git commit -m "chore: update profile"
+          git push
 
   snake:
     runs-on: ubuntu-latest
     steps:
-      - name: Generate contribution snake
-        uses: Platane/snk/svg-only@v3
+      - uses: Platane/snk/svg-only@v3
         with:
-          github_user_name: ${{ github.repository_owner }}
+          github_user_name: feelow3555
           outputs: |
             dist/github-snake.svg?color_snake=%23ff7a00
             dist/github-snake-dark.svg?palette=github-dark&color_snake=%23ff7a00
 
-      - name: Publish snake
-        uses: crazy-max/ghaction-github-pages@v3.1.0
+      - uses: crazy-max/ghaction-github-pages@v3.1.0
         with:
           target_branch: output
           build_dir: dist
