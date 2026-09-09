@@ -71,7 +71,7 @@
 <text x="665" y="184" class="eyebrow">NOW BUILDING</text>
 <text x="665" y="214" class="body">github-achievement-test</text>
 <text x="665" y="237" class="small">feelow3555/github-achievement-test</text>
-<text x="665" y="256" class="small">— · 50m ago</text>
+<text x="665" y="256" class="small">— · 1h ago</text>
 
 <rect x="52" y="286" width="577" height="180" rx="14"
       fill="#11161D" stroke="#242B35"/>
@@ -113,7 +113,7 @@
 
 <circle cx="669" cy="343" r="3" fill="#FF7A00"/>
 <text x="682" y="348" class="body">PR merged · github-achievement-test</text>
-<text x="1017" y="348" class="small" text-anchor="end">50m ago</text>
+<text x="1017" y="348" class="small" text-anchor="end">1h ago</text>
 
 <circle cx="669" cy="374" r="3" fill="#FF7A00"/>
 <text x="682" y="379" class="body">push · veganing-backend</text>
