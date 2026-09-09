@@ -1,0 +1,12 @@
+<svg width="1200" height="255" viewBox="0 0 1200 255" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="1" y="1" width="1198" height="253" rx="22" fill="#0E0E0F" stroke="#2A2A2D" stroke-width="2"/>
+      <rect x="38" y="38" width="92" height="5" rx="2.5" fill="#FF7A00"/>
+      <text x="38" y="77" fill="#A5A5A8" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" letter-spacing="2">PROJECT 01 · 2026 CAPSTONE</text>
+      <text x="38" y="132" fill="#F5F5F5" font-family="Arial, Helvetica, sans-serif" font-size="44" font-weight="800">SWARM</text>
+      <text x="38" y="172" fill="#A5A5A8" font-family="Arial, Helvetica, sans-serif" font-size="20">인지 제약 기반 AI UX Simulation Framework</text>
+      <line x1="760" y1="50" x2="760" y2="205" stroke="#2E2E31" stroke-width="2"/>
+      <text x="812" y="86" fill="#A5A5A8" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" letter-spacing="2">ROLE</text>
+      <text x="812" y="127" fill="#F5F5F5" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="800">Team Lead · AI Framework</text>
+      <text x="812" y="169" fill="#A5A5A8" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" letter-spacing="2">RESULT</text>
+      <text x="812" y="210" fill="#FF7A00" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="800">300 STEP → 3 STEP</text>
+    </svg>
