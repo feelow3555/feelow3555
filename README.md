@@ -44,6 +44,50 @@ focus      →  structure · responsibility · verification
 
 <br/>
 
+<div align="center">
+
+### FEATURED PROJECTS
+
+<a href="https://github.com/S-warm/BE_AI_Framework">
+  <img src="./assets/swarm-logo.png" width="72" alt="SWARM"/>
+</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="VEGANING_URL">
+  <img src="./assets/veganing-logo.png" width="72" alt="VEGANING"/>
+</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="VERANDA_URL">
+  <img src="./assets/veranda-logo.png" width="72" alt="VERANDA FARMER"/>
+</a>
+
+<br/><br/>
+
+<a href="https://github.com/S-warm/BE_AI_Framework">
+  <img src="https://img.shields.io/badge/SWARM-AI%20UX%20SIMULATION-0D1117?style=for-the-badge&labelColor=161B22&color=FF7A00" alt="SWARM"/>
+</a>
+&nbsp;
+<a href="VEGANING_URL">
+  <img src="https://img.shields.io/badge/VEGANING-AI%20BACKEND-0D1117?style=for-the-badge&labelColor=161B22&color=FF7A00" alt="VEGANING"/>
+</a>
+&nbsp;
+<a href="VERANDA_URL">
+  <img src="https://img.shields.io/badge/VERANDA%20FARMER-ON--DEVICE%20AI-0D1117?style=for-the-badge&labelColor=161B22&color=FF7A00" alt="VERANDA FARMER"/>
+</a>
+
+<br/><br/>
+
+<sub>
+SWARM · Cognitive UX Simulation &nbsp;&nbsp;│&nbsp;&nbsp;
+VEGANING · Spring AI Backend &nbsp;&nbsp;│&nbsp;&nbsp;
+VERANDA FARMER · On-device AI Smart Farm
+</sub>
+
+</div>
+
+<br/>
+
+<br/>
+
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="./assets/dashboard-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="./assets/dashboard-light.svg">
@@ -51,6 +95,7 @@ focus      →  structure · responsibility · verification
 </picture>
 
 <br/>
+
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="./assets/commits-dark.svg">
@@ -77,6 +122,7 @@ focus      →  structure · responsibility · verification
 <br/>
 
 <div align="center">
+
 
 ### CONTRIBUTION GAME
 
