@@ -21,10 +21,6 @@
     font-size: 31px;
     font-weight: 800;
   }
-  .label {
-    fill: #8B949E;
-    font-size: 12px;
-  }
   .body {
     fill: #F0F6FC;
     font-size: 14px;
@@ -32,9 +28,6 @@
   .small {
     fill: #8B949E;
     font-size: 12px;
-  }
-  .accent {
-    fill: #FF7A00;
   }
 </style>
 
@@ -47,7 +40,9 @@
 <rect x="24" y="24" width="6" height="472" rx="3" fill="#FF7A00"/>
 
 <text x="52" y="58" class="eyebrow">DEVELOPER STATUS</text>
-<circle cx="1015" cy="52" r="5" fill="#FF7A00"/>
+<circle cx="1015" cy="52" r="5" fill="#FF7A00">
+  <animate attributeName="opacity" values="1;.35;1" dur="2.2s" repeatCount="indefinite"/>
+</circle>
 <text x="1028" y="56" class="small">LIVE</text>
 
 <text x="52" y="100" class="title">@feelow3555</text>
@@ -56,7 +51,7 @@
 <rect x="52" y="157" width="212" height="108" rx="14"
       fill="#11161D" stroke="#242B35"/>
 <text x="72" y="184" class="eyebrow">CONTRIBUTIONS</text>
-<text x="72" y="227" class="metric">173</text>
+<text x="72" y="227" class="metric">174</text>
 <text x="72" y="248" class="small">last 12 months</text>
 
 <rect x="280" y="157" width="178" height="108" rx="14"
@@ -117,19 +112,19 @@
 <text x="518" y="444" class="small">0.7%</text>
 
 <circle cx="669" cy="343" r="3" fill="#FF7A00"/>
-<text x="682" y="348" class="body">push · veganing-backend · 0 commits</text>
+<text x="682" y="348" class="body">push · veganing-backend</text>
 <text x="1017" y="348" class="small" text-anchor="end">8d ago</text>
 
 <circle cx="669" cy="374" r="3" fill="#FF7A00"/>
-<text x="682" y="379" class="body">push · BE_AI_Framework · 0 commits</text>
+<text x="682" y="379" class="body">push · BE_AI_Framework</text>
 <text x="1017" y="379" class="small" text-anchor="end">8d ago</text>
 
 <circle cx="669" cy="405" r="3" fill="#FF7A00"/>
-<text x="682" y="410" class="body">push · .github · 0 commits</text>
+<text x="682" y="410" class="body">push · .github</text>
 <text x="1017" y="410" class="small" text-anchor="end">8d ago</text>
 
 <circle cx="669" cy="436" r="3" fill="#FF7A00"/>
-<text x="682" y="441" class="body">push · .github · 0 commits</text>
+<text x="682" y="441" class="body">push · .github</text>
 <text x="1017" y="441" class="small" text-anchor="end">8d ago</text>
 
 <text x="52" y="488" class="small">structure / build / verify / improve</text>

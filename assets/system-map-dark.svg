@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="430" viewBox="0 0 1100 430">
+<style>
+text { font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+.eyebrow { fill:#8B949E; font-size:12px; font-weight:700; letter-spacing:2px; }
+.title { fill:#F0F6FC; font-size:20px; font-weight:800; }
+.body { fill:#F0F6FC; font-size:14px; }
+.small { fill:#8B949E; font-size:12px; }
+.metric { fill:#F0F6FC; font-size:26px; font-weight:800; }
+</style>
+<rect x="0.5" y="0.5" width="1099" height="429" rx="22" fill="#07090C" stroke="#242B35"/>
+<rect x="24" y="24" width="1052" height="382" rx="18" fill="#0D1117" stroke="#242B35"/>
+<rect x="24" y="24" width="6" height="382" rx="3" fill="#FF7A00"/>
+<text x="52" y="58" class="eyebrow">SYSTEM MAP</text>
+<text x="1048" y="58" class="small" text-anchor="end">HOW I CONNECT THE PIECES</text>
+
+<line x1="550" y1="108" x2="245" y2="200" stroke="#242B35" stroke-width="2" stroke-dasharray="5 7">
+  <animate attributeName="stroke-dashoffset" values="24;0" dur="3s" repeatCount="indefinite"/>
+</line>
+
+<line x1="550" y1="108" x2="445" y2="200" stroke="#242B35" stroke-width="2" stroke-dasharray="5 7">
+  <animate attributeName="stroke-dashoffset" values="24;0" dur="3s" repeatCount="indefinite"/>
+</line>
+
+<line x1="550" y1="108" x2="655" y2="200" stroke="#242B35" stroke-width="2" stroke-dasharray="5 7">
+  <animate attributeName="stroke-dashoffset" values="24;0" dur="3s" repeatCount="indefinite"/>
+</line>
+
+<line x1="550" y1="108" x2="855" y2="200" stroke="#242B35" stroke-width="2" stroke-dasharray="5 7">
+  <animate attributeName="stroke-dashoffset" values="24;0" dur="3s" repeatCount="indefinite"/>
+</line>
+
+<line x1="245" y1="200" x2="550" y2="286" stroke="#242B35" stroke-width="2" stroke-dasharray="5 7">
+  <animate attributeName="stroke-dashoffset" values="24;0" dur="3s" repeatCount="indefinite"/>
+</line>
+
+<line x1="445" y1="200" x2="550" y2="286" stroke="#242B35" stroke-width="2" stroke-dasharray="5 7">
+  <animate attributeName="stroke-dashoffset" values="24;0" dur="3s" repeatCount="indefinite"/>
+</line>
+
+<line x1="655" y1="200" x2="550" y2="286" stroke="#242B35" stroke-width="2" stroke-dasharray="5 7">
+  <animate attributeName="stroke-dashoffset" values="24;0" dur="3s" repeatCount="indefinite"/>
+</line>
+
+<line x1="855" y1="200" x2="550" y2="286" stroke="#242B35" stroke-width="2" stroke-dasharray="5 7">
+  <animate attributeName="stroke-dashoffset" values="24;0" dur="3s" repeatCount="indefinite"/>
+</line>
+
+<line x1="550" y1="286" x2="235" y2="366" stroke="#242B35" stroke-width="2" stroke-dasharray="5 7">
+  <animate attributeName="stroke-dashoffset" values="24;0" dur="3s" repeatCount="indefinite"/>
+</line>
+
+<line x1="550" y1="286" x2="445" y2="366" stroke="#242B35" stroke-width="2" stroke-dasharray="5 7">
+  <animate attributeName="stroke-dashoffset" values="24;0" dur="3s" repeatCount="indefinite"/>
+</line>
+
+<line x1="550" y1="286" x2="655" y2="366" stroke="#242B35" stroke-width="2" stroke-dasharray="5 7">
+  <animate attributeName="stroke-dashoffset" values="24;0" dur="3s" repeatCount="indefinite"/>
+</line>
+
+<line x1="550" y1="286" x2="865" y2="366" stroke="#242B35" stroke-width="2" stroke-dasharray="5 7">
+  <animate attributeName="stroke-dashoffset" values="24;0" dur="3s" repeatCount="indefinite"/>
+</line>
+
+<circle cx="550" cy="108" r="9" fill="#FF7A00">
+  <animate attributeName="opacity" values="1;.4;1" dur="2.2s" repeatCount="indefinite"/>
+</circle>
+<text x="550" y="90" class="title" text-anchor="middle">AI / LLM</text>
+
+<circle cx="245" cy="200" r="6" fill="#FF7A00">
+  <animate attributeName="opacity" values="1;.4;1" dur="2.5s" repeatCount="indefinite"/>
+</circle>
+<text x="245" y="182" class="body" text-anchor="middle">VISION</text>
+
+<circle cx="445" cy="200" r="6" fill="#FF7A00">
+  <animate attributeName="opacity" values="1;.4;1" dur="2.8s" repeatCount="indefinite"/>
+</circle>
+<text x="445" y="182" class="body" text-anchor="middle">RAG</text>
+
+<circle cx="655" cy="200" r="6" fill="#FF7A00">
+  <animate attributeName="opacity" values="1;.4;1" dur="3.1s" repeatCount="indefinite"/>
+</circle>
+<text x="655" y="182" class="body" text-anchor="middle">AGENT</text>
+
+<circle cx="855" cy="200" r="6" fill="#FF7A00">
+  <animate attributeName="opacity" values="1;.4;1" dur="2.2s" repeatCount="indefinite"/>
+</circle>
+<text x="855" y="182" class="body" text-anchor="middle">AUTOMATION</text>
+
+<circle cx="550" cy="286" r="9" fill="#FF7A00">
+  <animate attributeName="opacity" values="1;.4;1" dur="2.5s" repeatCount="indefinite"/>
+</circle>
+<text x="550" y="268" class="title" text-anchor="middle">BACKEND</text>
+
+<circle cx="235" cy="366" r="6" fill="#FF7A00">
+  <animate attributeName="opacity" values="1;.4;1" dur="2.8s" repeatCount="indefinite"/>
+</circle>
+<text x="235" y="348" class="body" text-anchor="middle">SPRING</text>
+
+<circle cx="445" cy="366" r="6" fill="#FF7A00">
+  <animate attributeName="opacity" values="1;.4;1" dur="3.1s" repeatCount="indefinite"/>
+</circle>
+<text x="445" y="348" class="body" text-anchor="middle">REDIS</text>
+
+<circle cx="655" cy="366" r="6" fill="#FF7A00">
+  <animate attributeName="opacity" values="1;.4;1" dur="2.2s" repeatCount="indefinite"/>
+</circle>
+<text x="655" y="348" class="body" text-anchor="middle">POSTGRES</text>
+
+<circle cx="865" cy="366" r="6" fill="#FF7A00">
+  <animate attributeName="opacity" values="1;.4;1" dur="2.5s" repeatCount="indefinite"/>
+</circle>
+<text x="865" y="348" class="body" text-anchor="middle">AWS</text>
+</svg>

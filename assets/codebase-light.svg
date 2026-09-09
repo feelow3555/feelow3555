@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="365" viewBox="0 0 1100 365">
+<style>
+text { font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+.eyebrow { fill:#656D76; font-size:12px; font-weight:700; letter-spacing:2px; }
+.title { fill:#1F2328; font-size:20px; font-weight:800; }
+.body { fill:#1F2328; font-size:14px; }
+.small { fill:#656D76; font-size:12px; }
+.metric { fill:#1F2328; font-size:26px; font-weight:800; }
+</style>
+<rect x="0.5" y="0.5" width="1099" height="364" rx="22" fill="#FFFFFF" stroke="#D0D7DE"/>
+<rect x="24" y="24" width="1052" height="317" rx="18" fill="#F6F8FA" stroke="#D0D7DE"/>
+<rect x="24" y="24" width="6" height="317" rx="3" fill="#FF7A00"/>
+<text x="52" y="58" class="eyebrow">CODEBASE MAP</text>
+<text x="1048" y="58" class="small" text-anchor="end">REAL REPOSITORY LANGUAGE DATA</text>
+
+<text x="52" y="100" class="metric">20 repos</text>
+<text x="52" y="124" class="small">owned + contributed public repositories</text>
+
+<rect x="52.0" y="154" width="668.9" height="112" rx="12" fill="#FFFFFF" stroke="#FF7A00" stroke-opacity="1.00"/>
+<text x="66.0" y="189" class="body">Python</text>
+<text x="66.0" y="224" class="title">92.6%</text>
+
+<rect x="726.9" y="154" width="59.4" height="112" rx="12" fill="#FFFFFF" stroke="#FF7A00" stroke-opacity="0.89"/>
+<text x="740.9" y="189" class="body">JavaScript</text>
+<text x="740.9" y="224" class="title">3.0%</text>
+
+<rect x="792.3" y="154" width="59.4" height="112" rx="12" fill="#FFFFFF" stroke="#FF7A00" stroke-opacity="0.78"/>
+<text x="806.3" y="189" class="body">TypeScript</text>
+<text x="806.3" y="224" class="title">2.8%</text>
+
+<rect x="857.8" y="154" width="59.4" height="112" rx="12" fill="#FFFFFF" stroke="#FF7A00" stroke-opacity="0.67"/>
+<text x="871.8" y="189" class="body">HTML</text>
+<text x="871.8" y="224" class="title">0.7%</text>
+
+<rect x="923.2" y="154" width="59.4" height="112" rx="12" fill="#FFFFFF" stroke="#FF7A00" stroke-opacity="0.56"/>
+<text x="937.2" y="189" class="body">Java</text>
+<text x="937.2" y="224" class="title">0.7%</text>
+
+<rect x="988.6" y="154" width="59.4" height="112" rx="12" fill="#FFFFFF" stroke="#FF7A00" stroke-opacity="0.45"/>
+<text x="1002.6" y="189" class="body">CSS</text>
+<text x="1002.6" y="224" class="title">0.1%</text>
+
+<text x="52" y="310" class="eyebrow">CODE, NOT SELF-RATING</text>
+<text x="52" y="336" class="small">calculated from GitHub language bytes across the visible codebase</text>
+<circle cx="1028" cy="321" r="5" fill="#FF7A00">
+  <animate attributeName="r" values="4;7;4" dur="2.8s" repeatCount="indefinite"/>
+  <animate attributeName="opacity" values="1;.35;1" dur="2.8s" repeatCount="indefinite"/>
+</circle>
+</svg>
