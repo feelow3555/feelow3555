@@ -7,58 +7,61 @@ from datetime import datetime, timezone
 from pathlib import Path
 from html import escape
 
-
 USER = os.getenv("PROFILE_USER", "feelow3555")
 TOKEN = os.environ["GITHUB_TOKEN"]
-
 ROOT = Path(__file__).resolve().parents[1]
 
-GRAPHQL = "https://api.github.com/graphql"
-EVENTS = f"https://api.github.com/users/{USER}/events/public?per_page=30"
-
+GRAPHQL_URL = "https://api.github.com/graphql"
+EVENTS_URL = f"https://api.github.com/users/{USER}/events/public?per_page=50"
 
 QUERY = """
 query($login:String!) {
   user(login:$login) {
-    name
     login
-
-    followers {
-      totalCount
-    }
+    followers { totalCount }
 
     repositories(
-      first: 100,
-      ownerAffiliations: OWNER,
-      isFork: false,
-      orderBy: {
-        field: PUSHED_AT,
-        direction: DESC
-      }
+      first: 100
+      ownerAffiliations: OWNER
+      isFork: false
+      orderBy: {field: PUSHED_AT, direction: DESC}
     ) {
-      totalCount
-
       nodes {
         name
         url
+        description
         pushedAt
         stargazerCount
         isPrivate
-
-        languages(
-          first: 10,
-          orderBy: {
-            field: SIZE,
-            direction: DESC
-          }
-        ) {
+        primaryLanguage { name color }
+        languages(first: 10, orderBy: {field: SIZE, direction: DESC}) {
           edges {
             size
+            node { name color }
+          }
+        }
+      }
+    }
 
-            node {
-              name
-              color
-            }
+    repositoriesContributedTo(
+      first: 50
+      contributionTypes: [COMMIT, PULL_REQUEST, REPOSITORY]
+      includeUserRepositories: false
+      orderBy: {field: PUSHED_AT, direction: DESC}
+    ) {
+      nodes {
+        name
+        nameWithOwner
+        url
+        description
+        pushedAt
+        stargazerCount
+        isPrivate
+        primaryLanguage { name color }
+        languages(first: 10, orderBy: {field: SIZE, direction: DESC}) {
+          edges {
+            size
+            node { name color }
           }
         }
       }
@@ -73,11 +76,6 @@ query($login:String!) {
 }
 """
 
-
-# ---------------------------------------------------------
-# GitHub API
-# ---------------------------------------------------------
-
 def request_json(url, data=None):
     headers = {
         "Authorization": f"Bearer {TOKEN}",
@@ -87,24 +85,18 @@ def request_json(url, data=None):
 
     req = urllib.request.Request(
         url,
-        data=(json.dumps(data).encode() if data is not None else None),
+        data=json.dumps(data).encode("utf-8") if data is not None else None,
         headers=headers,
-        method=("POST" if data is not None else "GET"),
+        method="POST" if data is not None else "GET",
     )
 
     with urllib.request.urlopen(req, timeout=30) as response:
-        return json.loads(response.read().decode())
-
+        return json.loads(response.read().decode("utf-8"))
 
 def github_data():
     result = request_json(
-        GRAPHQL,
-        {
-            "query": QUERY,
-            "variables": {
-                "login": USER
-            }
-        }
+        GRAPHQL_URL,
+        {"query": QUERY, "variables": {"login": USER}}
     )
 
     if result.get("errors"):
@@ -112,10 +104,57 @@ def github_data():
 
     return result["data"]["user"]
 
+def time_ago(timestamp):
+    if not timestamp:
+        return "—"
 
-# ---------------------------------------------------------
-# Language statistics
-# ---------------------------------------------------------
+    dt = datetime.fromisoformat(timestamp.replace("Z", "+00:00"))
+    seconds = max(0, int((datetime.now(timezone.utc) - dt).total_seconds()))
+
+    if seconds < 3600:
+        return f"{max(1, seconds // 60)}m ago"
+    if seconds < 86400:
+        return f"{seconds // 3600}h ago"
+    if seconds < 86400 * 30:
+        return f"{seconds // 86400}d ago"
+
+    return dt.strftime("%Y-%m-%d")
+
+def normalize_repos(user):
+    result = []
+    seen = set()
+
+    for repo in user["repositories"]["nodes"]:
+        if repo["name"] == USER:
+            continue
+
+        item = dict(repo)
+        item["nameWithOwner"] = f"{USER}/{repo['name']}"
+
+        if item["nameWithOwner"] in seen:
+            continue
+
+        seen.add(item["nameWithOwner"])
+        result.append(item)
+
+    for repo in user["repositoriesContributedTo"]["nodes"]:
+        if repo["isPrivate"]:
+            continue
+
+        key = repo["nameWithOwner"]
+
+        if key in seen:
+            continue
+
+        seen.add(key)
+        result.append(repo)
+
+    result.sort(
+        key=lambda r: r.get("pushedAt") or "",
+        reverse=True
+    )
+
+    return result
 
 def aggregate_languages(repos):
     totals = {}
@@ -124,83 +163,82 @@ def aggregate_languages(repos):
         if repo.get("isPrivate"):
             continue
 
-        edges = repo.get("languages", {}).get("edges", [])
+        for edge in repo.get("languages", {}).get("edges", []):
+            name = edge["node"]["name"]
+            totals[name] = totals.get(name, 0) + int(edge["size"])
 
-        for edge in edges:
-            language = edge["node"]["name"]
-            size = int(edge["size"])
-
-            totals[language] = totals.get(language, 0) + size
-
-    total_size = sum(totals.values()) or 1
-
-    ranked = sorted(
-        totals.items(),
-        key=lambda item: item[1],
-        reverse=True
-    )[:5]
+    total = sum(totals.values()) or 1
 
     return [
-        (language, size / total_size * 100)
-        for language, size in ranked
+        (name, size / total * 100)
+        for name, size in sorted(
+            totals.items(),
+            key=lambda x: x[1],
+            reverse=True
+        )[:5]
     ]
 
+def recent_events():
+    events = request_json(EVENTS_URL)
+    rows = []
+    seen = set()
 
-# ---------------------------------------------------------
-# Time formatting
-# ---------------------------------------------------------
+    for event in events:
+        repo = event.get("repo", {}).get("name", "")
+        event_type = event.get("type", "")
 
-def time_ago(timestamp):
-    if not timestamp:
-        return "—"
+        if not repo or repo == f"{USER}/{USER}":
+            continue
 
-    dt = datetime.fromisoformat(
-        timestamp.replace("Z", "+00:00")
-    )
+        key = (event_type, repo)
+        if key in seen:
+            continue
+        seen.add(key)
 
-    delta = datetime.now(timezone.utc) - dt
-    seconds = max(0, int(delta.total_seconds()))
+        when = time_ago(event.get("created_at"))
+        short_repo = repo.split("/")[-1]
 
-    if seconds < 3600:
-        minutes = max(1, seconds // 60)
-        return f"{minutes}m ago"
+        if event_type == "PushEvent":
+            count = len(event.get("payload", {}).get("commits", []))
+            label = f"push · {short_repo} · {count} commit" + ("" if count == 1 else "s")
+        elif event_type == "PullRequestEvent":
+            action = event.get("payload", {}).get("action", "updated")
+            label = f"PR {action} · {short_repo}"
+        elif event_type == "CreateEvent":
+            ref_type = event.get("payload", {}).get("ref_type", "repo")
+            label = f"created {ref_type} · {short_repo}"
+        elif event_type == "IssuesEvent":
+            action = event.get("payload", {}).get("action", "updated")
+            label = f"issue {action} · {short_repo}"
+        else:
+            continue
 
-    if seconds < 86400:
-        hours = seconds // 3600
-        return f"{hours}h ago"
+        rows.append((label, when))
 
-    if seconds < 86400 * 30:
-        days = seconds // 86400
-        return f"{days}d ago"
+        if len(rows) >= 4:
+            break
 
-    return dt.strftime("%Y-%m-%d")
+    return rows
 
+def svg_text(text):
+    return escape(str(text))
 
-# ---------------------------------------------------------
-# Dashboard SVG
-# ---------------------------------------------------------
-
-def svg(theme, user):
+def build_dashboard(theme, user):
     dark = theme == "dark"
 
-    bg = "#0d1117" if dark else "#ffffff"
-    fg = "#f0f6fc" if dark else "#1f2328"
-    muted = "#8b949e" if dark else "#656d76"
-    border = "#30363d" if dark else "#d0d7de"
-    track = "#21262d" if dark else "#eaeef2"
+    BG = "#07090C" if dark else "#FFFFFF"
+    PANEL = "#0D1117" if dark else "#F6F8FA"
+    PANEL2 = "#11161D" if dark else "#FFFFFF"
+    FG = "#F0F6FC" if dark else "#1F2328"
+    MUTED = "#8B949E" if dark else "#656D76"
+    BORDER = "#242B35" if dark else "#D0D7DE"
+    TRACK = "#171D25" if dark else "#EAECEF"
+    ACCENT = "#FF7A00"
 
-    accent = "#ff7a00"
-
-    repos = user["repositories"]["nodes"]
-
-    languages = aggregate_languages(repos)
-
+    repos = normalize_repos(user)
     latest = repos[0] if repos else None
-
-    stars = sum(
-        int(repo["stargazerCount"])
-        for repo in repos
-    )
+    languages = aggregate_languages(repos)
+    events = recent_events()
 
     contributions = (
         user["contributionsCollection"]
@@ -208,505 +246,146 @@ def svg(theme, user):
         ["totalContributions"]
     )
 
-    width = 980
-    height = 330
+    stars = sum(int(r.get("stargazerCount", 0)) for r in repos)
+    repo_count = len(repos)
 
-    parts = [
-        f"""
-<svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="{width}"
-    height="{height}"
-    viewBox="0 0 {width} {height}"
->
+    latest_name = latest["name"] if latest else "—"
+    latest_owner = latest["nameWithOwner"] if latest else "—"
+    latest_lang = (
+        latest.get("primaryLanguage", {}).get("name", "—")
+        if latest and latest.get("primaryLanguage")
+        else "—"
+    )
+    latest_time = time_ago(latest.get("pushedAt")) if latest else "—"
 
+    width = 1100
+    height = 520
+
+    svg = f"""
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="{width}" height="{height}" viewBox="0 0 {width} {height}">
 <style>
-
-text {{
-    font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        Helvetica,
-        Arial,
-        sans-serif;
-}}
-
-.label {{
-    fill: {muted};
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 1.4px;
-}}
-
-.big {{
-    fill: {fg};
-    font-size: 32px;
+  text {{
+    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }}
+  .eyebrow {{
+    fill: {MUTED};
+    font-size: 12px;
     font-weight: 700;
-}}
-
-.value {{
-    fill: {fg};
-    font-size: 18px;
-    font-weight: 650;
-}}
-
-.small {{
-    fill: {muted};
-    font-size: 13px;
-}}
-
-.lang {{
-    fill: {fg};
+    letter-spacing: 2px;
+  }}
+  .title {{
+    fill: {FG};
+    font-size: 28px;
+    font-weight: 800;
+  }}
+  .metric {{
+    fill: {FG};
+    font-size: 31px;
+    font-weight: 800;
+  }}
+  .label {{
+    fill: {MUTED};
+    font-size: 12px;
+  }}
+  .body {{
+    fill: {FG};
     font-size: 14px;
-    font-weight: 600;
-}}
-
+  }}
+  .small {{
+    fill: {MUTED};
+    font-size: 12px;
+  }}
+  .accent {{
+    fill: {ACCENT};
+  }}
 </style>
 
+<rect x="0.5" y="0.5" width="1099" height="519" rx="22"
+      fill="{BG}" stroke="{BORDER}"/>
 
-<rect
-    x="0.5"
-    y="0.5"
-    width="{width - 1}"
-    height="{height - 1}"
-    rx="14"
-    fill="{bg}"
-    stroke="{border}"
-/>
+<rect x="24" y="24" width="1052" height="472" rx="18"
+      fill="{PANEL}" stroke="{BORDER}"/>
 
+<rect x="24" y="24" width="6" height="472" rx="3" fill="{ACCENT}"/>
 
-<!-- Header -->
+<text x="52" y="58" class="eyebrow">DEVELOPER STATUS</text>
+<circle cx="1015" cy="52" r="5" fill="{ACCENT}"/>
+<text x="1028" y="56" class="small">LIVE</text>
 
-<circle
-    cx="34"
-    cy="35"
-    r="5"
-    fill="{accent}"
-/>
+<text x="52" y="100" class="title">@{svg_text(USER)}</text>
+<text x="52" y="126" class="small">github data · generated automatically</text>
 
-<text
-    x="51"
-    y="40"
-    class="label"
->
-    GITHUB / LIVE
-</text>
+<rect x="52" y="157" width="212" height="108" rx="14"
+      fill="{PANEL2}" stroke="{BORDER}"/>
+<text x="72" y="184" class="eyebrow">CONTRIBUTIONS</text>
+<text x="72" y="227" class="metric">{svg_text(contributions)}</text>
+<text x="72" y="248" class="small">last 12 months</text>
 
+<rect x="280" y="157" width="178" height="108" rx="14"
+      fill="{PANEL2}" stroke="{BORDER}"/>
+<text x="300" y="184" class="eyebrow">REPOS</text>
+<text x="300" y="227" class="metric">{svg_text(repo_count)}</text>
+<text x="300" y="248" class="small">owned + contributed</text>
 
-<!-- Contributions -->
+<rect x="474" y="157" width="155" height="108" rx="14"
+      fill="{PANEL2}" stroke="{BORDER}"/>
+<text x="494" y="184" class="eyebrow">STARS</text>
+<text x="494" y="227" class="metric">{svg_text(stars)}</text>
+<text x="494" y="248" class="small">public repos</text>
 
-<text
-    x="34"
-    y="95"
-    class="big"
->
-    {escape(str(contributions))}
-</text>
+<rect x="645" y="157" width="403" height="108" rx="14"
+      fill="{PANEL2}" stroke="{BORDER}"/>
+<text x="665" y="184" class="eyebrow">NOW BUILDING</text>
+<text x="665" y="214" class="body">{svg_text(latest_name)}</text>
+<text x="665" y="237" class="small">{svg_text(latest_owner)}</text>
+<text x="665" y="256" class="small">{svg_text(latest_lang)} · {svg_text(latest_time)}</text>
 
-<text
-    x="34"
-    y="119"
-    class="small"
->
-    contributions · last year
-</text>
+<rect x="52" y="286" width="577" height="180" rx="14"
+      fill="{PANEL2}" stroke="{BORDER}"/>
+<text x="72" y="314" class="eyebrow">LANGUAGE ACTIVITY</text>
 
-
-<!-- Repositories -->
-
-<text
-    x="280"
-    y="95"
-    class="big"
->
-    {escape(str(user["repositories"]["totalCount"]))}
-</text>
-
-<text
-    x="280"
-    y="119"
-    class="small"
->
-    repositories
-</text>
-
-
-<!-- Stars -->
-
-<text
-    x="470"
-    y="95"
-    class="big"
->
-    {escape(str(stars))}
-</text>
-
-<text
-    x="470"
-    y="119"
-    class="small"
->
-    stars
-</text>
-
-
-<!-- Latest Push -->
-
-<text
-    x="650"
-    y="75"
-    class="label"
->
-    LATEST PUSH
-</text>
-
-<text
-    x="650"
-    y="101"
-    class="value"
->
-    {escape(latest["name"] if latest else "—")}
-</text>
-
-<text
-    x="650"
-    y="124"
-    class="small"
->
-    {
-        escape(
-            time_ago(latest["pushedAt"])
-            if latest
-            else "—"
-        )
-    }
-</text>
-
-
-<line
-    x1="34"
-    y1="154"
-    x2="946"
-    y2="154"
-    stroke="{border}"
-/>
-
-
-<!-- Languages -->
-
-<text
-    x="34"
-    y="187"
-    class="label"
->
-    LANGUAGES
-</text>
+<rect x="645" y="286" width="403" height="180" rx="14"
+      fill="{PANEL2}" stroke="{BORDER}"/>
+<text x="665" y="314" class="eyebrow">RECENT SIGNALS</text>
 """
-    ]
 
-    base_y = 216
+    base_y = 344
 
-    for index, (name, percentage) in enumerate(languages):
-        y = base_y + index * 22
+    for i, (name, pct) in enumerate(languages):
+        y = base_y + i * 25
+        bar_x = 180
+        bar_w = 320
+        fill_w = max(3, bar_w * pct / 100)
+        opacity = max(0.35, 1.0 - i * 0.12)
 
-        bar_x = 160
-        bar_width = 430
-
-        fill_width = max(
-            2,
-            bar_width * percentage / 100
-        )
-
-        opacity = max(
-            0.28,
-            1 - index * 0.13
-        )
-
-        parts += [
-            f"""
-<text
-    x="34"
-    y="{y + 4}"
-    class="lang"
->
-    {escape(name)}
-</text>
-""",
-
-            f"""
-<rect
-    x="{bar_x}"
-    y="{y - 7}"
-    width="{bar_width}"
-    height="8"
-    rx="4"
-    fill="{track}"
-/>
-""",
-
-            f"""
-<rect
-    x="{bar_x}"
-    y="{y - 7}"
-    width="{fill_width:.1f}"
-    height="8"
-    rx="4"
-    fill="{accent}"
-    opacity="{opacity:.2f}"
-/>
-""",
-
-            f"""
-<text
-    x="610"
-    y="{y + 4}"
-    class="small"
->
-    {percentage:.1f}%
-</text>
+        svg += f"""
+<text x="72" y="{y}" class="body">{svg_text(name)}</text>
+<rect x="{bar_x}" y="{y-10}" width="{bar_w}" height="8" rx="4" fill="{TRACK}"/>
+<rect x="{bar_x}" y="{y-10}" width="{fill_w:.1f}" height="8" rx="4"
+      fill="{ACCENT}" opacity="{opacity:.2f}"/>
+<text x="518" y="{y}" class="small">{pct:.1f}%</text>
 """
-        ]
 
-    # Profile block
-    parts += [
-        f"""
-<text
-    x="790"
-    y="187"
-    class="label"
->
-    PROFILE
-</text>
+    event_y = 348
+    for i, (label, when) in enumerate(events):
+        y = event_y + i * 31
+        svg += f"""
+<circle cx="669" cy="{y-5}" r="3" fill="{ACCENT}"/>
+<text x="682" y="{y}" class="body">{svg_text(label)}</text>
+<text x="1017" y="{y}" class="small" text-anchor="end">{svg_text(when)}</text>
+"""
 
-<text
-    x="790"
-    y="218"
-    class="value"
->
-    @{escape(USER)}
-</text>
+    if not events:
+        svg += f'<text x="665" y="354" class="small">no recent public activity</text>'
 
-<text
-    x="790"
-    y="242"
-    class="small"
->
-    {escape(str(user["followers"]["totalCount"]))} followers
-</text>
-
-<text
-    x="790"
-    y="267"
-    class="small"
->
-    auto-updated
-</text>
-
+    svg += f"""
+<text x="52" y="488" class="small">structure / build / verify / improve</text>
+<text x="1048" y="488" class="small" text-anchor="end">accent #{ACCENT[1:]}</text>
 </svg>
 """
-    ]
 
-    return "".join(parts)
-
-
-# ---------------------------------------------------------
-# Recent GitHub Activity
-# ---------------------------------------------------------
-
-def recent_activity():
-    events = request_json(EVENTS)
-
-    rows = []
-    seen = set()
-
-    for event in events:
-        event_type = event.get("type")
-
-        repo = (
-            event
-            .get("repo", {})
-            .get("name", "")
-        )
-
-        # ---------------------------------------------
-        # Ignore profile repository activity
-        # ---------------------------------------------
-
-        if repo == f"{USER}/{USER}":
-            continue
-
-        created_at = event.get("created_at")
-
-        key = (
-            event_type,
-            repo
-        )
-
-        if key in seen:
-            continue
-
-        seen.add(key)
-
-        # ---------------------------------------------
-        # Push
-        # ---------------------------------------------
-
-        if event_type == "PushEvent":
-            commits = len(
-                event
-                .get("payload", {})
-                .get("commits", [])
-            )
-
-            commit_text = (
-                f"{commits} commit"
-                if commits == 1
-                else f"{commits} commits"
-            )
-
-            text = (
-                f"pushed {commit_text} "
-                f"to `{repo}`"
-            )
-
-            icon = "↳"
-
-        # ---------------------------------------------
-        # Pull Request
-        # ---------------------------------------------
-
-        elif event_type == "PullRequestEvent":
-            action = (
-                event
-                .get("payload", {})
-                .get("action", "updated")
-            )
-
-            text = (
-                f"{action} a pull request "
-                f"in `{repo}`"
-            )
-
-            icon = "↗"
-
-        # ---------------------------------------------
-        # Repository / Branch / Tag creation
-        # ---------------------------------------------
-
-        elif event_type == "CreateEvent":
-            ref_type = (
-                event
-                .get("payload", {})
-                .get("ref_type", "repository")
-            )
-
-            text = (
-                f"created {ref_type} "
-                f"in `{repo}`"
-            )
-
-            icon = "+"
-
-        # ---------------------------------------------
-        # Issue
-        # ---------------------------------------------
-
-        elif event_type == "IssuesEvent":
-            action = (
-                event
-                .get("payload", {})
-                .get("action", "updated")
-            )
-
-            text = (
-                f"{action} an issue "
-                f"in `{repo}`"
-            )
-
-            icon = "!"
-
-        # ---------------------------------------------
-        # Release
-        # ---------------------------------------------
-
-        elif event_type == "ReleaseEvent":
-            action = (
-                event
-                .get("payload", {})
-                .get("action", "published")
-            )
-
-            text = (
-                f"{action} a release "
-                f"in `{repo}`"
-            )
-
-            icon = "◆"
-
-        else:
-            continue
-
-        rows.append(
-            f"- `{icon}` {text} · "
-            f"{time_ago(created_at)}"
-        )
-
-        if len(rows) >= 5:
-            break
-
-    if not rows:
-        return "_No recent public activity._"
-
-    # 실제 Markdown 줄바꿈
-    return "\n".join(rows)
-
-
-# ---------------------------------------------------------
-# README Update
-# ---------------------------------------------------------
-
-def update_readme(activity):
-    readme_path = ROOT / "README.md"
-
-    content = readme_path.read_text(
-        encoding="utf-8"
-    )
-
-    start_marker = "<!-- RECENT_ACTIVITY:START -->"
-    end_marker = "<!-- RECENT_ACTIVITY:END -->"
-
-    before, rest = content.split(
-        start_marker,
-        1
-    )
-
-    _, after = rest.split(
-        end_marker,
-        1
-    )
-
-    # 중요:
-    # "\\n"이 아니라 "\n"이어야 실제 줄바꿈이 들어감.
-    new_content = (
-        before
-        + start_marker
-        + "\n"
-        + activity
-        + "\n"
-        + end_marker
-        + after
-    )
-
-    readme_path.write_text(
-        new_content,
-        encoding="utf-8"
-    )
-
-
-# ---------------------------------------------------------
-# Main
-# ---------------------------------------------------------
+    return svg
 
 def main():
     user = github_data()
@@ -714,29 +393,15 @@ def main():
     assets = ROOT / "assets"
     assets.mkdir(exist_ok=True)
 
-    # Dark dashboard
-    (
-        assets
-        / "dashboard-dark.svg"
-    ).write_text(
-        svg("dark", user),
+    (assets / "dashboard-dark.svg").write_text(
+        build_dashboard("dark", user),
         encoding="utf-8"
     )
 
-    # Light dashboard
-    (
-        assets
-        / "dashboard-light.svg"
-    ).write_text(
-        svg("light", user),
+    (assets / "dashboard-light.svg").write_text(
+        build_dashboard("light", user),
         encoding="utf-8"
     )
-
-    # Recent GitHub activity
-    update_readme(
-        recent_activity()
-    )
-
 
 if __name__ == "__main__":
     main()
