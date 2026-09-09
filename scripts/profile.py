@@ -198,7 +198,7 @@ def recent_activity():
         rows.append(f"- `{icon}` {text} · {time_ago(created)}")
         if len(rows) >= 5:
             break
-    return "\\n".join(rows) if rows else "_No recent public activity._"
+    return "\n".join(rows) if rows else "_No recent public activity._"
 
 def update_readme(activity):
     p = ROOT / "README.md"
