@@ -1,393 +1,137 @@
 
-<svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="980"
-    height="330"
-    viewBox="0 0 980 330"
->
-
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="1100" height="520" viewBox="0 0 1100 520">
 <style>
-
-text {
-    font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        Helvetica,
-        Arial,
-        sans-serif;
-}
-
-.label {
-    fill: #656d76;
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 1.4px;
-}
-
-.big {
-    fill: #1f2328;
-    font-size: 32px;
+  text {
+    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  .eyebrow {
+    fill: #656D76;
+    font-size: 12px;
     font-weight: 700;
-}
-
-.value {
-    fill: #1f2328;
-    font-size: 18px;
-    font-weight: 650;
-}
-
-.small {
-    fill: #656d76;
-    font-size: 13px;
-}
-
-.lang {
-    fill: #1f2328;
+    letter-spacing: 2px;
+  }
+  .title {
+    fill: #1F2328;
+    font-size: 28px;
+    font-weight: 800;
+  }
+  .metric {
+    fill: #1F2328;
+    font-size: 31px;
+    font-weight: 800;
+  }
+  .label {
+    fill: #656D76;
+    font-size: 12px;
+  }
+  .body {
+    fill: #1F2328;
     font-size: 14px;
-    font-weight: 600;
-}
-
+  }
+  .small {
+    fill: #656D76;
+    font-size: 12px;
+  }
+  .accent {
+    fill: #FF7A00;
+  }
 </style>
 
+<rect x="0.5" y="0.5" width="1099" height="519" rx="22"
+      fill="#FFFFFF" stroke="#D0D7DE"/>
 
-<rect
-    x="0.5"
-    y="0.5"
-    width="979"
-    height="329"
-    rx="14"
-    fill="#ffffff"
-    stroke="#d0d7de"
-/>
+<rect x="24" y="24" width="1052" height="472" rx="18"
+      fill="#F6F8FA" stroke="#D0D7DE"/>
 
+<rect x="24" y="24" width="6" height="472" rx="3" fill="#FF7A00"/>
 
-<!-- Header -->
+<text x="52" y="58" class="eyebrow">DEVELOPER STATUS</text>
+<circle cx="1015" cy="52" r="5" fill="#FF7A00"/>
+<text x="1028" y="56" class="small">LIVE</text>
 
-<circle
-    cx="34"
-    cy="35"
-    r="5"
-    fill="#ff7a00"
-/>
+<text x="52" y="100" class="title">@feelow3555</text>
+<text x="52" y="126" class="small">github data · generated automatically</text>
 
-<text
-    x="51"
-    y="40"
-    class="label"
->
-    GITHUB / LIVE
-</text>
+<rect x="52" y="157" width="212" height="108" rx="14"
+      fill="#FFFFFF" stroke="#D0D7DE"/>
+<text x="72" y="184" class="eyebrow">CONTRIBUTIONS</text>
+<text x="72" y="227" class="metric">172</text>
+<text x="72" y="248" class="small">last 12 months</text>
 
+<rect x="280" y="157" width="178" height="108" rx="14"
+      fill="#FFFFFF" stroke="#D0D7DE"/>
+<text x="300" y="184" class="eyebrow">REPOS</text>
+<text x="300" y="227" class="metric">20</text>
+<text x="300" y="248" class="small">owned + contributed</text>
 
-<!-- Contributions -->
+<rect x="474" y="157" width="155" height="108" rx="14"
+      fill="#FFFFFF" stroke="#D0D7DE"/>
+<text x="494" y="184" class="eyebrow">STARS</text>
+<text x="494" y="227" class="metric">0</text>
+<text x="494" y="248" class="small">public repos</text>
 
-<text
-    x="34"
-    y="95"
-    class="big"
->
-    171
-</text>
+<rect x="645" y="157" width="403" height="108" rx="14"
+      fill="#FFFFFF" stroke="#D0D7DE"/>
+<text x="665" y="184" class="eyebrow">NOW BUILDING</text>
+<text x="665" y="214" class="body">BE_AI_Framework</text>
+<text x="665" y="237" class="small">S-warm/BE_AI_Framework</text>
+<text x="665" y="256" class="small">Python · 8d ago</text>
 
-<text
-    x="34"
-    y="119"
-    class="small"
->
-    contributions · last year
-</text>
+<rect x="52" y="286" width="577" height="180" rx="14"
+      fill="#FFFFFF" stroke="#D0D7DE"/>
+<text x="72" y="314" class="eyebrow">LANGUAGE ACTIVITY</text>
 
+<rect x="645" y="286" width="403" height="180" rx="14"
+      fill="#FFFFFF" stroke="#D0D7DE"/>
+<text x="665" y="314" class="eyebrow">RECENT SIGNALS</text>
 
-<!-- Repositories -->
+<text x="72" y="344" class="body">Python</text>
+<rect x="180" y="334" width="320" height="8" rx="4" fill="#EAECEF"/>
+<rect x="180" y="334" width="296.3" height="8" rx="4"
+      fill="#FF7A00" opacity="1.00"/>
+<text x="518" y="344" class="small">92.6%</text>
 
-<text
-    x="280"
-    y="95"
-    class="big"
->
-    8
-</text>
+<text x="72" y="369" class="body">JavaScript</text>
+<rect x="180" y="359" width="320" height="8" rx="4" fill="#EAECEF"/>
+<rect x="180" y="359" width="9.6" height="8" rx="4"
+      fill="#FF7A00" opacity="0.88"/>
+<text x="518" y="369" class="small">3.0%</text>
 
-<text
-    x="280"
-    y="119"
-    class="small"
->
-    repositories
-</text>
+<text x="72" y="394" class="body">TypeScript</text>
+<rect x="180" y="384" width="320" height="8" rx="4" fill="#EAECEF"/>
+<rect x="180" y="384" width="8.9" height="8" rx="4"
+      fill="#FF7A00" opacity="0.76"/>
+<text x="518" y="394" class="small">2.8%</text>
 
+<text x="72" y="419" class="body">HTML</text>
+<rect x="180" y="409" width="320" height="8" rx="4" fill="#EAECEF"/>
+<rect x="180" y="409" width="3.0" height="8" rx="4"
+      fill="#FF7A00" opacity="0.64"/>
+<text x="518" y="419" class="small">0.7%</text>
 
-<!-- Stars -->
+<text x="72" y="444" class="body">Java</text>
+<rect x="180" y="434" width="320" height="8" rx="4" fill="#EAECEF"/>
+<rect x="180" y="434" width="3.0" height="8" rx="4"
+      fill="#FF7A00" opacity="0.52"/>
+<text x="518" y="444" class="small">0.7%</text>
 
-<text
-    x="470"
-    y="95"
-    class="big"
->
-    0
-</text>
+<circle cx="669" cy="343" r="3" fill="#FF7A00"/>
+<text x="682" y="348" class="body">push · veganing-backend · 0 commits</text>
+<text x="1017" y="348" class="small" text-anchor="end">8d ago</text>
 
-<text
-    x="470"
-    y="119"
-    class="small"
->
-    stars
-</text>
+<circle cx="669" cy="374" r="3" fill="#FF7A00"/>
+<text x="682" y="379" class="body">push · BE_AI_Framework · 0 commits</text>
+<text x="1017" y="379" class="small" text-anchor="end">8d ago</text>
 
+<circle cx="669" cy="405" r="3" fill="#FF7A00"/>
+<text x="682" y="410" class="body">push · .github · 0 commits</text>
+<text x="1017" y="410" class="small" text-anchor="end">8d ago</text>
 
-<!-- Latest Push -->
+<circle cx="669" cy="436" r="3" fill="#FF7A00"/>
+<text x="682" y="441" class="body">push · .github · 0 commits</text>
+<text x="1017" y="441" class="small" text-anchor="end">8d ago</text>
 
-<text
-    x="650"
-    y="75"
-    class="label"
->
-    LATEST PUSH
-</text>
-
-<text
-    x="650"
-    y="101"
-    class="value"
->
-    feelow3555
-</text>
-
-<text
-    x="650"
-    y="124"
-    class="small"
->
-    1m ago
-</text>
-
-
-<line
-    x1="34"
-    y1="154"
-    x2="946"
-    y2="154"
-    stroke="#d0d7de"
-/>
-
-
-<!-- Languages -->
-
-<text
-    x="34"
-    y="187"
-    class="label"
->
-    LANGUAGES
-</text>
-
-<text
-    x="34"
-    y="220"
-    class="lang"
->
-    Python
-</text>
-
-<rect
-    x="160"
-    y="209"
-    width="430"
-    height="8"
-    rx="4"
-    fill="#eaeef2"
-/>
-
-<rect
-    x="160"
-    y="209"
-    width="391.6"
-    height="8"
-    rx="4"
-    fill="#ff7a00"
-    opacity="1.00"
-/>
-
-<text
-    x="610"
-    y="220"
-    class="small"
->
-    91.1%
-</text>
-
-<text
-    x="34"
-    y="242"
-    class="lang"
->
-    JavaScript
-</text>
-
-<rect
-    x="160"
-    y="231"
-    width="430"
-    height="8"
-    rx="4"
-    fill="#eaeef2"
-/>
-
-<rect
-    x="160"
-    y="231"
-    width="20.1"
-    height="8"
-    rx="4"
-    fill="#ff7a00"
-    opacity="0.87"
-/>
-
-<text
-    x="610"
-    y="242"
-    class="small"
->
-    4.7%
-</text>
-
-<text
-    x="34"
-    y="264"
-    class="lang"
->
-    HTML
-</text>
-
-<rect
-    x="160"
-    y="253"
-    width="430"
-    height="8"
-    rx="4"
-    fill="#eaeef2"
-/>
-
-<rect
-    x="160"
-    y="253"
-    width="8.9"
-    height="8"
-    rx="4"
-    fill="#ff7a00"
-    opacity="0.74"
-/>
-
-<text
-    x="610"
-    y="264"
-    class="small"
->
-    2.1%
-</text>
-
-<text
-    x="34"
-    y="286"
-    class="lang"
->
-    Java
-</text>
-
-<rect
-    x="160"
-    y="275"
-    width="430"
-    height="8"
-    rx="4"
-    fill="#eaeef2"
-/>
-
-<rect
-    x="160"
-    y="275"
-    width="8.8"
-    height="8"
-    rx="4"
-    fill="#ff7a00"
-    opacity="0.61"
-/>
-
-<text
-    x="610"
-    y="286"
-    class="small"
->
-    2.0%
-</text>
-
-<text
-    x="34"
-    y="308"
-    class="lang"
->
-    PowerShell
-</text>
-
-<rect
-    x="160"
-    y="297"
-    width="430"
-    height="8"
-    rx="4"
-    fill="#eaeef2"
-/>
-
-<rect
-    x="160"
-    y="297"
-    width="2.0"
-    height="8"
-    rx="4"
-    fill="#ff7a00"
-    opacity="0.48"
-/>
-
-<text
-    x="610"
-    y="308"
-    class="small"
->
-    0.1%
-</text>
-
-<text
-    x="790"
-    y="187"
-    class="label"
->
-    PROFILE
-</text>
-
-<text
-    x="790"
-    y="218"
-    class="value"
->
-    @feelow3555
-</text>
-
-<text
-    x="790"
-    y="242"
-    class="small"
->
-    0 followers
-</text>
-
-<text
-    x="790"
-    y="267"
-    class="small"
->
-    auto-updated
-</text>
-
+<text x="52" y="488" class="small">structure / build / verify / improve</text>
+<text x="1048" y="488" class="small" text-anchor="end">accent #FF7A00</text>
 </svg>
