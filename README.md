@@ -53,41 +53,49 @@ focus      →  structure · responsibility · verification
 <table>
 <tr>
 
-<td width="250" align="center" valign="bottom">
+<td width="260" height="100" align="center" valign="middle">
 
 <a href="https://github.com/S-warm/BE_AI_Framework">
-<img src="./assets/swarm-logo.png" width="150" height="55" alt="SWARM"/>
+  <img src="./assets/swarm-logo.png" width="185" alt="SWARM"/>
 </a>
 
-<br/><br/>
+</td>
+
+<td width="260" height="100" align="center" valign="middle">
+
+<a href="VEGANING_URL">
+  <img src="./assets/veganing-logo.png" width="205" alt="VEGANING"/>
+</a>
+
+</td>
+
+<td width="260" height="100" align="center" valign="middle">
+
+<a href="VERANDA_URL">
+  <img src="./assets/veranda-logo.png" width="210" alt="VERANDA FARMER"/>
+</a>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td width="260" align="center" valign="middle">
 
 <img src="https://img.shields.io/badge/SWARM-161B22?style=flat-square" height="25"/>
 <img src="https://img.shields.io/badge/AI_UX_SIMULATION-FF7A00?style=flat-square" height="25"/>
 
 </td>
 
-
-<td width="250" align="center" valign="bottom">
-
-<a href="VEGANING_URL">
-<img src="./assets/veganing-logo.png" width="150" height="55" alt="VEGANING"/>
-</a>
-
-<br/><br/>
+<td width="260" align="center" valign="middle">
 
 <img src="https://img.shields.io/badge/VEGANING-161B22?style=flat-square" height="25"/>
 <img src="https://img.shields.io/badge/AI_BACKEND-FF7A00?style=flat-square" height="25"/>
 
 </td>
 
-
-<td width="250" align="center" valign="bottom">
-
-<a href="VERANDA_URL">
-<img src="./assets/veranda-logo.png" width="150" height="55" alt="VERANDA FARMER"/>
-</a>
-
-<br/><br/>
+<td width="260" align="center" valign="middle">
 
 <img src="https://img.shields.io/badge/VERANDA_FARMER-161B22?style=flat-square" height="25"/>
 <img src="https://img.shields.io/badge/ON--DEVICE_AI-FF7A00?style=flat-square" height="25"/>
