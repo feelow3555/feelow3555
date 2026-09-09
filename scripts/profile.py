@@ -2,6 +2,7 @@
 
 import os
 import json
+import urllib.parse
 import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
@@ -12,7 +13,7 @@ TOKEN = os.environ["GITHUB_TOKEN"]
 ROOT = Path(__file__).resolve().parents[1]
 
 GRAPHQL_URL = "https://api.github.com/graphql"
-EVENTS_URL = f"https://api.github.com/users/{USER}/events/public?per_page=50"
+EVENTS_URL = f"https://api.github.com/users/{USER}/events/public?per_page=100"
 
 QUERY = """
 query($login:String!) {
@@ -28,13 +29,14 @@ query($login:String!) {
     ) {
       nodes {
         name
+        nameWithOwner
         url
         description
         pushedAt
         stargazerCount
         isPrivate
         primaryLanguage { name color }
-        languages(first: 10, orderBy: {field: SIZE, direction: DESC}) {
+        languages(first: 20, orderBy: {field: SIZE, direction: DESC}) {
           edges {
             size
             node { name color }
@@ -58,7 +60,7 @@ query($login:String!) {
         stargazerCount
         isPrivate
         primaryLanguage { name color }
-        languages(first: 10, orderBy: {field: SIZE, direction: DESC}) {
+        languages(first: 20, orderBy: {field: SIZE, direction: DESC}) {
           edges {
             size
             node { name color }
@@ -76,11 +78,13 @@ query($login:String!) {
 }
 """
 
+
 def request_json(url, data=None):
     headers = {
         "Authorization": f"Bearer {TOKEN}",
         "User-Agent": "feelow3555-profile",
         "Accept": "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28",
     }
 
     req = urllib.request.Request(
@@ -93,16 +97,18 @@ def request_json(url, data=None):
     with urllib.request.urlopen(req, timeout=30) as response:
         return json.loads(response.read().decode("utf-8"))
 
+
 def github_data():
     result = request_json(
         GRAPHQL_URL,
-        {"query": QUERY, "variables": {"login": USER}}
+        {"query": QUERY, "variables": {"login": USER}},
     )
 
     if result.get("errors"):
         raise RuntimeError(result["errors"])
 
     return result["data"]["user"]
+
 
 def time_ago(timestamp):
     if not timestamp:
@@ -120,6 +126,7 @@ def time_ago(timestamp):
 
     return dt.strftime("%Y-%m-%d")
 
+
 def normalize_repos(user):
     result = []
     seen = set()
@@ -129,7 +136,7 @@ def normalize_repos(user):
             continue
 
         item = dict(repo)
-        item["nameWithOwner"] = f"{USER}/{repo['name']}"
+        item["nameWithOwner"] = repo.get("nameWithOwner") or f"{USER}/{repo['name']}"
 
         if item["nameWithOwner"] in seen:
             continue
@@ -151,12 +158,13 @@ def normalize_repos(user):
 
     result.sort(
         key=lambda r: r.get("pushedAt") or "",
-        reverse=True
+        reverse=True,
     )
 
     return result
 
-def aggregate_languages(repos):
+
+def aggregate_languages(repos, limit=6):
     totals = {}
 
     for repo in repos:
@@ -174,9 +182,10 @@ def aggregate_languages(repos):
         for name, size in sorted(
             totals.items(),
             key=lambda x: x[1],
-            reverse=True
-        )[:5]
+            reverse=True,
+        )[:limit]
     ]
+
 
 def recent_events():
     events = request_json(EVENTS_URL)
@@ -199,8 +208,7 @@ def recent_events():
         short_repo = repo.split("/")[-1]
 
         if event_type == "PushEvent":
-            count = len(event.get("payload", {}).get("commits", []))
-            label = f"push · {short_repo} · {count} commit" + ("" if count == 1 else "s")
+            label = f"push · {short_repo}"
         elif event_type == "PullRequestEvent":
             action = event.get("payload", {}).get("action", "updated")
             label = f"PR {action} · {short_repo}"
@@ -220,24 +228,41 @@ def recent_events():
 
     return rows
 
+
 def svg_text(text):
     return escape(str(text))
 
-def build_dashboard(theme, user):
+
+def get_theme(theme):
     dark = theme == "dark"
 
-    BG = "#07090C" if dark else "#FFFFFF"
-    PANEL = "#0D1117" if dark else "#F6F8FA"
-    PANEL2 = "#11161D" if dark else "#FFFFFF"
-    FG = "#F0F6FC" if dark else "#1F2328"
-    MUTED = "#8B949E" if dark else "#656D76"
-    BORDER = "#242B35" if dark else "#D0D7DE"
-    TRACK = "#171D25" if dark else "#EAECEF"
-    ACCENT = "#FF7A00"
+    return {
+        "BG": "#07090C" if dark else "#FFFFFF",
+        "PANEL": "#0D1117" if dark else "#F6F8FA",
+        "PANEL2": "#11161D" if dark else "#FFFFFF",
+        "FG": "#F0F6FC" if dark else "#1F2328",
+        "MUTED": "#8B949E" if dark else "#656D76",
+        "BORDER": "#242B35" if dark else "#D0D7DE",
+        "TRACK": "#171D25" if dark else "#EAECEF",
+        "ACCENT": "#FF7A00",
+    }
+
+
+def build_dashboard(theme, user):
+    colors = get_theme(theme)
+
+    BG = colors["BG"]
+    PANEL = colors["PANEL"]
+    PANEL2 = colors["PANEL2"]
+    FG = colors["FG"]
+    MUTED = colors["MUTED"]
+    BORDER = colors["BORDER"]
+    TRACK = colors["TRACK"]
+    ACCENT = colors["ACCENT"]
 
     repos = normalize_repos(user)
     latest = repos[0] if repos else None
-    languages = aggregate_languages(repos)
+    languages = aggregate_languages(repos, limit=5)
     events = recent_events()
 
     contributions = (
@@ -258,12 +283,9 @@ def build_dashboard(theme, user):
     )
     latest_time = time_ago(latest.get("pushedAt")) if latest else "—"
 
-    width = 1100
-    height = 520
-
     svg = f"""
 <svg xmlns="http://www.w3.org/2000/svg"
-     width="{width}" height="{height}" viewBox="0 0 {width} {height}">
+     width="1100" height="520" viewBox="0 0 1100 520">
 <style>
   text {{
     font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
@@ -284,10 +306,6 @@ def build_dashboard(theme, user):
     font-size: 31px;
     font-weight: 800;
   }}
-  .label {{
-    fill: {MUTED};
-    font-size: 12px;
-  }}
   .body {{
     fill: {FG};
     font-size: 14px;
@@ -295,9 +313,6 @@ def build_dashboard(theme, user):
   .small {{
     fill: {MUTED};
     font-size: 12px;
-  }}
-  .accent {{
-    fill: {ACCENT};
   }}
 </style>
 
@@ -310,7 +325,9 @@ def build_dashboard(theme, user):
 <rect x="24" y="24" width="6" height="472" rx="3" fill="{ACCENT}"/>
 
 <text x="52" y="58" class="eyebrow">DEVELOPER STATUS</text>
-<circle cx="1015" cy="52" r="5" fill="{ACCENT}"/>
+<circle cx="1015" cy="52" r="5" fill="{ACCENT}">
+  <animate attributeName="opacity" values="1;.35;1" dur="2.2s" repeatCount="indefinite"/>
+</circle>
 <text x="1028" y="56" class="small">LIVE</text>
 
 <text x="52" y="100" class="title">@{svg_text(USER)}</text>
@@ -377,7 +394,7 @@ def build_dashboard(theme, user):
 """
 
     if not events:
-        svg += f'<text x="665" y="354" class="small">no recent public activity</text>'
+        svg += '<text x="665" y="354" class="small">no recent public activity</text>'
 
     svg += f"""
 <text x="52" y="488" class="small">structure / build / verify / improve</text>
@@ -387,21 +404,456 @@ def build_dashboard(theme, user):
 
     return svg
 
+
+def repo_candidates_for_commits(user):
+    candidates = []
+    seen = set()
+
+    try:
+        events = request_json(EVENTS_URL)
+    except Exception:
+        events = []
+
+    for event in events:
+        if event.get("type") != "PushEvent":
+            continue
+
+        repo = event.get("repo", {}).get("name", "")
+
+        if not repo or repo == f"{USER}/{USER}" or repo in seen:
+            continue
+
+        seen.add(repo)
+        candidates.append(repo)
+
+        if len(candidates) >= 8:
+            break
+
+    for repo in normalize_repos(user):
+        name = repo["nameWithOwner"]
+
+        if name in seen:
+            continue
+
+        seen.add(name)
+        candidates.append(name)
+
+        if len(candidates) >= 12:
+            break
+
+    return candidates
+
+
+def fetch_repo_commits(repo_name, per_page=4):
+    encoded_user = urllib.parse.quote(USER)
+
+    url = (
+        f"https://api.github.com/repos/{repo_name}/commits"
+        f"?author={encoded_user}&per_page={per_page}"
+    )
+
+    try:
+        data = request_json(url)
+    except Exception:
+        return []
+
+    if not isinstance(data, list):
+        return []
+
+    result = []
+
+    for item in data:
+        commit = item.get("commit", {})
+        message = (commit.get("message") or "commit").splitlines()[0].strip()
+        timestamp = (
+            commit.get("author", {}).get("date")
+            or commit.get("committer", {}).get("date")
+        )
+
+        result.append({
+            "repo": repo_name,
+            "message": message,
+            "date": timestamp,
+        })
+
+    return result
+
+
+def recent_commits(user, limit=5):
+    rows = []
+    seen = set()
+
+    for repo_name in repo_candidates_for_commits(user):
+        for commit in fetch_repo_commits(repo_name):
+            key = (
+                commit["repo"],
+                commit["message"],
+                commit["date"],
+            )
+
+            if key in seen:
+                continue
+
+            seen.add(key)
+            rows.append(commit)
+
+    def sort_key(item):
+        value = item.get("date")
+        if not value:
+            return datetime.min.replace(tzinfo=timezone.utc)
+        return datetime.fromisoformat(value.replace("Z", "+00:00"))
+
+    rows.sort(key=sort_key, reverse=True)
+    return rows[:limit]
+
+
+def build_commits(theme, user):
+    colors = get_theme(theme)
+
+    BG = colors["BG"]
+    PANEL = colors["PANEL"]
+    FG = colors["FG"]
+    MUTED = colors["MUTED"]
+    BORDER = colors["BORDER"]
+    ACCENT = colors["ACCENT"]
+
+    rows = recent_commits(user, limit=5)
+
+    svg = f"""
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="1100" height="300" viewBox="0 0 1100 300">
+<style>
+  text {{
+    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }}
+  .eyebrow {{
+    fill: {MUTED};
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+  }}
+  .body {{
+    fill: {FG};
+    font-size: 14px;
+  }}
+  .small {{
+    fill: {MUTED};
+    font-size: 12px;
+  }}
+</style>
+
+<rect x="0.5" y="0.5" width="1099" height="299" rx="22"
+      fill="{BG}" stroke="{BORDER}"/>
+
+<rect x="24" y="24" width="1052" height="252" rx="18"
+      fill="{PANEL}" stroke="{BORDER}"/>
+
+<rect x="24" y="24" width="6" height="252" rx="3" fill="{ACCENT}"/>
+
+<text x="52" y="58" class="eyebrow">RECENT COMMITS</text>
+<text x="1048" y="58" class="small" text-anchor="end">REAL COMMIT MESSAGES</text>
+"""
+
+    if not rows:
+        svg += '<text x="52" y="112" class="small">no recent public commits found</text>'
+    else:
+        y = 104
+
+        for row in rows:
+            repo = row["repo"].split("/")[-1]
+            message = row["message"]
+
+            if len(message) > 66:
+                message = message[:63] + "..."
+
+            when = time_ago(row["date"])
+
+            svg += f"""
+<circle cx="58" cy="{y-5}" r="4" fill="{ACCENT}">
+  <animate attributeName="opacity" values="1;.35;1" dur="2.6s" repeatCount="indefinite"/>
+</circle>
+
+<text x="76" y="{y}" class="body">{svg_text(repo)}</text>
+<text x="286" y="{y}" class="small">{svg_text(message)}</text>
+<text x="1028" y="{y}" class="small" text-anchor="end">{svg_text(when)}</text>
+"""
+
+            if y < 240:
+                svg += f'<line x1="76" y1="{y+18}" x2="1028" y2="{y+18}" stroke="{BORDER}"/>'
+
+            y += 39
+
+    svg += "</svg>"
+    return svg
+
+
+def build_codebase(theme, user):
+    colors = get_theme(theme)
+
+    BG = colors["BG"]
+    PANEL = colors["PANEL"]
+    PANEL2 = colors["PANEL2"]
+    FG = colors["FG"]
+    MUTED = colors["MUTED"]
+    BORDER = colors["BORDER"]
+    ACCENT = colors["ACCENT"]
+
+    repos = normalize_repos(user)
+    languages = aggregate_languages(repos, limit=6)
+
+    svg = f"""
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="1100" height="365" viewBox="0 0 1100 365">
+<style>
+  text {{
+    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }}
+  .eyebrow {{
+    fill: {MUTED};
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+  }}
+  .title {{
+    fill: {FG};
+    font-size: 20px;
+    font-weight: 800;
+  }}
+  .metric {{
+    fill: {FG};
+    font-size: 26px;
+    font-weight: 800;
+  }}
+  .body {{
+    fill: {FG};
+    font-size: 14px;
+  }}
+  .small {{
+    fill: {MUTED};
+    font-size: 12px;
+  }}
+</style>
+
+<rect x="0.5" y="0.5" width="1099" height="364" rx="22"
+      fill="{BG}" stroke="{BORDER}"/>
+
+<rect x="24" y="24" width="1052" height="317" rx="18"
+      fill="{PANEL}" stroke="{BORDER}"/>
+
+<rect x="24" y="24" width="6" height="317" rx="3" fill="{ACCENT}"/>
+
+<text x="52" y="58" class="eyebrow">CODEBASE MAP</text>
+<text x="1048" y="58" class="small" text-anchor="end">PUBLIC REPOSITORY LANGUAGE DATA</text>
+
+<text x="52" y="100" class="metric">{len(repos)} repos</text>
+<text x="52" y="124" class="small">owned + contributed public repositories</text>
+"""
+
+    if not languages:
+        svg += '<text x="52" y="170" class="small">no language data</text></svg>'
+        return svg
+
+    x0 = 52
+    y0 = 154
+    total_width = 996
+    box_height = 112
+    gap = 6
+
+    pct_total = sum(pct for _, pct in languages) or 1
+    raw_widths = [total_width * pct / pct_total for _, pct in languages]
+    min_width = 82
+    widths = [max(min_width, width) for width in raw_widths]
+    usable = total_width - gap * (len(widths) - 1)
+    scale = usable / sum(widths)
+    widths = [width * scale for width in widths]
+
+    x = x0
+
+    for i, ((name, pct), width) in enumerate(zip(languages, widths)):
+        opacity = max(0.34, 1 - i * 0.11)
+
+        svg += f"""
+<rect x="{x:.1f}" y="{y0}" width="{width:.1f}" height="{box_height}" rx="12"
+      fill="{PANEL2}" stroke="{ACCENT}" stroke-opacity="{opacity:.2f}"/>
+
+<text x="{x+14:.1f}" y="{y0+35}" class="body">{svg_text(name)}</text>
+<text x="{x+14:.1f}" y="{y0+70}" class="title">{pct:.1f}%</text>
+"""
+
+        x += width + gap
+
+    svg += f"""
+<text x="52" y="310" class="eyebrow">CODE, NOT SELF-RATING</text>
+<text x="52" y="336" class="small">calculated from GitHub language bytes across the visible codebase</text>
+
+<circle cx="1028" cy="321" r="5" fill="{ACCENT}">
+  <animate attributeName="r" values="4;7;4" dur="2.8s" repeatCount="indefinite"/>
+  <animate attributeName="opacity" values="1;.35;1" dur="2.8s" repeatCount="indefinite"/>
+</circle>
+
+</svg>
+"""
+
+    return svg
+
+
+def build_system_map(theme):
+    colors = get_theme(theme)
+
+    BG = colors["BG"]
+    PANEL = colors["PANEL"]
+    FG = colors["FG"]
+    MUTED = colors["MUTED"]
+    BORDER = colors["BORDER"]
+    ACCENT = colors["ACCENT"]
+
+    nodes = {
+        "AI / LLM": (550, 110),
+        "VISION": (245, 200),
+        "RAG": (445, 200),
+        "AGENT": (655, 200),
+        "AUTOMATION": (855, 200),
+        "BACKEND": (550, 286),
+        "SPRING": (235, 366),
+        "REDIS": (445, 366),
+        "POSTGRES": (655, 366),
+        "AWS": (865, 366),
+    }
+
+    edges = [
+        ("AI / LLM", "VISION"),
+        ("AI / LLM", "RAG"),
+        ("AI / LLM", "AGENT"),
+        ("AI / LLM", "AUTOMATION"),
+        ("VISION", "BACKEND"),
+        ("RAG", "BACKEND"),
+        ("AGENT", "BACKEND"),
+        ("AUTOMATION", "BACKEND"),
+        ("BACKEND", "SPRING"),
+        ("BACKEND", "REDIS"),
+        ("BACKEND", "POSTGRES"),
+        ("BACKEND", "AWS"),
+    ]
+
+    svg = f"""
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="1100" height="430" viewBox="0 0 1100 430">
+<style>
+  text {{
+    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }}
+  .eyebrow {{
+    fill: {MUTED};
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+  }}
+  .title {{
+    fill: {FG};
+    font-size: 20px;
+    font-weight: 800;
+  }}
+  .body {{
+    fill: {FG};
+    font-size: 14px;
+  }}
+  .small {{
+    fill: {MUTED};
+    font-size: 12px;
+  }}
+</style>
+
+<rect x="0.5" y="0.5" width="1099" height="429" rx="22"
+      fill="{BG}" stroke="{BORDER}"/>
+
+<rect x="24" y="24" width="1052" height="382" rx="18"
+      fill="{PANEL}" stroke="{BORDER}"/>
+
+<rect x="24" y="24" width="6" height="382" rx="3" fill="{ACCENT}"/>
+
+<text x="52" y="58" class="eyebrow">SYSTEM MAP</text>
+<text x="1048" y="58" class="small" text-anchor="end">HOW THE PIECES CONNECT</text>
+"""
+
+    for source, target in edges:
+        x1, y1 = nodes[source]
+        x2, y2 = nodes[target]
+
+        svg += f"""
+<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}"
+      stroke="{BORDER}" stroke-width="2" stroke-dasharray="5 7">
+  <animate attributeName="stroke-dashoffset" values="24;0" dur="3s" repeatCount="indefinite"/>
+</line>
+"""
+
+    for i, (name, (x, y)) in enumerate(nodes.items()):
+        main = name in ("AI / LLM", "BACKEND")
+        radius = 9 if main else 6
+        text_class = "title" if main else "body"
+        duration = 2.2 + (i % 4) * 0.3
+
+        svg += f"""
+<circle cx="{x}" cy="{y}" r="{radius}" fill="{ACCENT}">
+  <animate attributeName="opacity" values="1;.4;1" dur="{duration:.1f}s" repeatCount="indefinite"/>
+</circle>
+
+<text x="{x}" y="{y-18}" class="{text_class}" text-anchor="middle">{svg_text(name)}</text>
+"""
+
+    svg += "</svg>"
+    return svg
+
+
 def main():
     user = github_data()
 
     assets = ROOT / "assets"
     assets.mkdir(exist_ok=True)
 
-    (assets / "dashboard-dark.svg").write_text(
-        build_dashboard("dark", user),
-        encoding="utf-8"
-    )
+    for theme in ("dark", "light"):
+        (assets / f"dashboard-{theme}.svg").write_text(
+            build_dashboard(theme, user),
+            encoding="utf-8",
+        )
 
-    (assets / "dashboard-light.svg").write_text(
-        build_dashboard("light", user),
-        encoding="utf-8"
-    )
+        (assets / f"commits-{theme}.svg").write_text(
+            build_commits(theme, user),
+            encoding="utf-8",
+        )
+
+        (assets / f"codebase-{theme}.svg").write_text(
+            build_codebase(theme, user),
+            encoding="utf-8",
+        )
+
+        (assets / f"system-map-{theme}.svg").write_text(
+            build_system_map(theme),
+            encoding="utf-8",
+        )
+
+    expected = [
+        "dashboard-dark.svg",
+        "dashboard-light.svg",
+        "commits-dark.svg",
+        "commits-light.svg",
+        "codebase-dark.svg",
+        "codebase-light.svg",
+        "system-map-dark.svg",
+        "system-map-light.svg",
+    ]
+
+    missing = [
+        name for name in expected
+        if not (assets / name).exists()
+    ]
+
+    if missing:
+        raise RuntimeError(
+            "Missing generated SVG files: " + ", ".join(missing)
+        )
+
+    print("OK: all 8 SVG files generated")
+
 
 if __name__ == "__main__":
     main()
