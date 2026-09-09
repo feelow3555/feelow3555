@@ -1,29 +1,393 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="980" height="330" viewBox="0 0 980 330">
+
+<svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="980"
+    height="330"
+    viewBox="0 0 980 330"
+>
+
 <style>
-text { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif; }
-.label { fill:#656d76; font-size:13px; font-weight:600; letter-spacing:1.4px; }
-.big { fill:#1f2328; font-size:32px; font-weight:700; }
-.value { fill:#1f2328; font-size:18px; font-weight:650; }
-.small { fill:#656d76; font-size:13px; }
-.lang { fill:#1f2328; font-size:14px; font-weight:600; }
+
+text {
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Helvetica,
+        Arial,
+        sans-serif;
+}
+
+.label {
+    fill: #656d76;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1.4px;
+}
+
+.big {
+    fill: #1f2328;
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.value {
+    fill: #1f2328;
+    font-size: 18px;
+    font-weight: 650;
+}
+
+.small {
+    fill: #656d76;
+    font-size: 13px;
+}
+
+.lang {
+    fill: #1f2328;
+    font-size: 14px;
+    font-weight: 600;
+}
+
 </style>
-<rect x="0.5" y="0.5" width="979" height="329" rx="14" fill="#ffffff" stroke="#d0d7de"/>
-<circle cx="34" cy="35" r="5" fill="#ff7a00"/>
-<text x="51" y="40" class="label">GITHUB / LIVE</text>
 
-<text x="34" y="95" class="big">171</text>
-<text x="34" y="119" class="small">contributions · last year</text>
 
-<text x="280" y="95" class="big">8</text>
-<text x="280" y="119" class="small">repositories</text>
+<rect
+    x="0.5"
+    y="0.5"
+    width="979"
+    height="329"
+    rx="14"
+    fill="#ffffff"
+    stroke="#d0d7de"
+/>
 
-<text x="470" y="95" class="big">0</text>
-<text x="470" y="119" class="small">stars</text>
 
-<text x="650" y="75" class="label">LATEST PUSH</text>
-<text x="650" y="101" class="value">feelow3555</text>
-<text x="650" y="124" class="small">1m ago</text>
+<!-- Header -->
 
-<line x1="34" y1="154" x2="946" y2="154" stroke="#d0d7de"/>
-<text x="34" y="187" class="label">LANGUAGES</text>
-<text x="34" y="220" class="lang">Python</text><rect x="160" y="209" width="430" height="8" rx="4" fill="#eaeef2"/><rect x="160" y="209" width="391.6" height="8" rx="4" fill="#ff7a00" opacity="1.00"/><text x="610" y="220" class="small">91.1%</text><text x="34" y="242" class="lang">JavaScript</text><rect x="160" y="231" width="430" height="8" rx="4" fill="#eaeef2"/><rect x="160" y="231" width="20.1" height="8" rx="4" fill="#ff7a00" opacity="0.87"/><text x="610" y="242" class="small">4.7%</text><text x="34" y="264" class="lang">HTML</text><rect x="160" y="253" width="430" height="8" rx="4" fill="#eaeef2"/><rect x="160" y="253" width="8.9" height="8" rx="4" fill="#ff7a00" opacity="0.74"/><text x="610" y="264" class="small">2.1%</text><text x="34" y="286" class="lang">Java</text><rect x="160" y="275" width="430" height="8" rx="4" fill="#eaeef2"/><rect x="160" y="275" width="8.8" height="8" rx="4" fill="#ff7a00" opacity="0.61"/><text x="610" y="286" class="small">2.0%</text><text x="34" y="308" class="lang">PowerShell</text><rect x="160" y="297" width="430" height="8" rx="4" fill="#eaeef2"/><rect x="160" y="297" width="2.0" height="8" rx="4" fill="#ff7a00" opacity="0.48"/><text x="610" y="308" class="small">0.1%</text><text x="790" y="187" class="label">PROFILE</text><text x="790" y="218" class="value">@feelow3555</text><text x="790" y="242" class="small">0 followers</text><text x="790" y="267" class="small">auto-updated</text></svg>
+<circle
+    cx="34"
+    cy="35"
+    r="5"
+    fill="#ff7a00"
+/>
+
+<text
+    x="51"
+    y="40"
+    class="label"
+>
+    GITHUB / LIVE
+</text>
+
+
+<!-- Contributions -->
+
+<text
+    x="34"
+    y="95"
+    class="big"
+>
+    171
+</text>
+
+<text
+    x="34"
+    y="119"
+    class="small"
+>
+    contributions · last year
+</text>
+
+
+<!-- Repositories -->
+
+<text
+    x="280"
+    y="95"
+    class="big"
+>
+    8
+</text>
+
+<text
+    x="280"
+    y="119"
+    class="small"
+>
+    repositories
+</text>
+
+
+<!-- Stars -->
+
+<text
+    x="470"
+    y="95"
+    class="big"
+>
+    0
+</text>
+
+<text
+    x="470"
+    y="119"
+    class="small"
+>
+    stars
+</text>
+
+
+<!-- Latest Push -->
+
+<text
+    x="650"
+    y="75"
+    class="label"
+>
+    LATEST PUSH
+</text>
+
+<text
+    x="650"
+    y="101"
+    class="value"
+>
+    feelow3555
+</text>
+
+<text
+    x="650"
+    y="124"
+    class="small"
+>
+    1m ago
+</text>
+
+
+<line
+    x1="34"
+    y1="154"
+    x2="946"
+    y2="154"
+    stroke="#d0d7de"
+/>
+
+
+<!-- Languages -->
+
+<text
+    x="34"
+    y="187"
+    class="label"
+>
+    LANGUAGES
+</text>
+
+<text
+    x="34"
+    y="220"
+    class="lang"
+>
+    Python
+</text>
+
+<rect
+    x="160"
+    y="209"
+    width="430"
+    height="8"
+    rx="4"
+    fill="#eaeef2"
+/>
+
+<rect
+    x="160"
+    y="209"
+    width="391.6"
+    height="8"
+    rx="4"
+    fill="#ff7a00"
+    opacity="1.00"
+/>
+
+<text
+    x="610"
+    y="220"
+    class="small"
+>
+    91.1%
+</text>
+
+<text
+    x="34"
+    y="242"
+    class="lang"
+>
+    JavaScript
+</text>
+
+<rect
+    x="160"
+    y="231"
+    width="430"
+    height="8"
+    rx="4"
+    fill="#eaeef2"
+/>
+
+<rect
+    x="160"
+    y="231"
+    width="20.1"
+    height="8"
+    rx="4"
+    fill="#ff7a00"
+    opacity="0.87"
+/>
+
+<text
+    x="610"
+    y="242"
+    class="small"
+>
+    4.7%
+</text>
+
+<text
+    x="34"
+    y="264"
+    class="lang"
+>
+    HTML
+</text>
+
+<rect
+    x="160"
+    y="253"
+    width="430"
+    height="8"
+    rx="4"
+    fill="#eaeef2"
+/>
+
+<rect
+    x="160"
+    y="253"
+    width="8.9"
+    height="8"
+    rx="4"
+    fill="#ff7a00"
+    opacity="0.74"
+/>
+
+<text
+    x="610"
+    y="264"
+    class="small"
+>
+    2.1%
+</text>
+
+<text
+    x="34"
+    y="286"
+    class="lang"
+>
+    Java
+</text>
+
+<rect
+    x="160"
+    y="275"
+    width="430"
+    height="8"
+    rx="4"
+    fill="#eaeef2"
+/>
+
+<rect
+    x="160"
+    y="275"
+    width="8.8"
+    height="8"
+    rx="4"
+    fill="#ff7a00"
+    opacity="0.61"
+/>
+
+<text
+    x="610"
+    y="286"
+    class="small"
+>
+    2.0%
+</text>
+
+<text
+    x="34"
+    y="308"
+    class="lang"
+>
+    PowerShell
+</text>
+
+<rect
+    x="160"
+    y="297"
+    width="430"
+    height="8"
+    rx="4"
+    fill="#eaeef2"
+/>
+
+<rect
+    x="160"
+    y="297"
+    width="2.0"
+    height="8"
+    rx="4"
+    fill="#ff7a00"
+    opacity="0.48"
+/>
+
+<text
+    x="610"
+    y="308"
+    class="small"
+>
+    0.1%
+</text>
+
+<text
+    x="790"
+    y="187"
+    class="label"
+>
+    PROFILE
+</text>
+
+<text
+    x="790"
+    y="218"
+    class="value"
+>
+    @feelow3555
+</text>
+
+<text
+    x="790"
+    y="242"
+    class="small"
+>
+    0 followers
+</text>
+
+<text
+    x="790"
+    y="267"
+    class="small"
+>
+    auto-updated
+</text>
+
+</svg>
