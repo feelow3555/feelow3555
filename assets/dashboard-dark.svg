@@ -57,7 +57,7 @@
 <rect x="280" y="157" width="178" height="108" rx="14"
       fill="#11161D" stroke="#242B35"/>
 <text x="300" y="184" class="eyebrow">REPOS</text>
-<text x="300" y="227" class="metric">21</text>
+<text x="300" y="227" class="metric">20</text>
 <text x="300" y="248" class="small">owned + contributed</text>
 
 <rect x="474" y="157" width="155" height="108" rx="14"
@@ -83,9 +83,9 @@
 
 <text x="72" y="344" class="body">Python</text>
 <rect x="180" y="334" width="320" height="8" rx="4" fill="#171D25"/>
-<rect x="180" y="334" width="296.3" height="8" rx="4"
+<rect x="180" y="334" width="298.4" height="8" rx="4"
       fill="#FF7A00" opacity="1.00"/>
-<text x="518" y="344" class="small">92.6%</text>
+<text x="518" y="344" class="small">93.2%</text>
 
 <text x="72" y="369" class="body">JavaScript</text>
 <rect x="180" y="359" width="320" height="8" rx="4" fill="#171D25"/>
@@ -95,9 +95,9 @@
 
 <text x="72" y="394" class="body">TypeScript</text>
 <rect x="180" y="384" width="320" height="8" rx="4" fill="#171D25"/>
-<rect x="180" y="384" width="8.9" height="8" rx="4"
+<rect x="180" y="384" width="6.7" height="8" rx="4"
       fill="#FF7A00" opacity="0.76"/>
-<text x="518" y="394" class="small">2.8%</text>
+<text x="518" y="394" class="small">2.1%</text>
 
 <text x="72" y="419" class="body">HTML</text>
 <rect x="180" y="409" width="320" height="8" rx="4" fill="#171D25"/>

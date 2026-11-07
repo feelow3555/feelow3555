@@ -13,32 +13,32 @@ text { font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Conso
 <text x="52" y="58" class="eyebrow">CODEBASE MAP</text>
 <text x="1048" y="58" class="small" text-anchor="end">REAL REPOSITORY LANGUAGE DATA</text>
 
-<text x="52" y="100" class="metric">21 repos</text>
+<text x="52" y="100" class="metric">20 repos</text>
 <text x="52" y="124" class="small">owned + contributed public repositories</text>
 
-<rect x="52.0" y="154" width="668.9" height="112" rx="12" fill="#FFFFFF" stroke="#FF7A00" stroke-opacity="1.00"/>
+<rect x="52.0" y="154" width="670.4" height="112" rx="12" fill="#FFFFFF" stroke="#FF7A00" stroke-opacity="1.00"/>
 <text x="66.0" y="189" class="body">Python</text>
-<text x="66.0" y="224" class="title">92.6%</text>
+<text x="66.0" y="224" class="title">93.2%</text>
 
-<rect x="726.9" y="154" width="59.4" height="112" rx="12" fill="#FFFFFF" stroke="#FF7A00" stroke-opacity="0.89"/>
-<text x="740.9" y="189" class="body">JavaScript</text>
-<text x="740.9" y="224" class="title">3.0%</text>
+<rect x="728.4" y="154" width="59.1" height="112" rx="12" fill="#FFFFFF" stroke="#FF7A00" stroke-opacity="0.89"/>
+<text x="742.4" y="189" class="body">JavaScript</text>
+<text x="742.4" y="224" class="title">3.0%</text>
 
-<rect x="792.3" y="154" width="59.4" height="112" rx="12" fill="#FFFFFF" stroke="#FF7A00" stroke-opacity="0.78"/>
-<text x="806.3" y="189" class="body">TypeScript</text>
-<text x="806.3" y="224" class="title">2.8%</text>
+<rect x="793.5" y="154" width="59.1" height="112" rx="12" fill="#FFFFFF" stroke="#FF7A00" stroke-opacity="0.78"/>
+<text x="807.5" y="189" class="body">TypeScript</text>
+<text x="807.5" y="224" class="title">2.1%</text>
 
-<rect x="857.8" y="154" width="59.4" height="112" rx="12" fill="#FFFFFF" stroke="#FF7A00" stroke-opacity="0.67"/>
-<text x="871.8" y="189" class="body">HTML</text>
-<text x="871.8" y="224" class="title">0.7%</text>
+<rect x="858.6" y="154" width="59.1" height="112" rx="12" fill="#FFFFFF" stroke="#FF7A00" stroke-opacity="0.67"/>
+<text x="872.6" y="189" class="body">HTML</text>
+<text x="872.6" y="224" class="title">0.7%</text>
 
-<rect x="923.2" y="154" width="59.4" height="112" rx="12" fill="#FFFFFF" stroke="#FF7A00" stroke-opacity="0.56"/>
-<text x="937.2" y="189" class="body">Java</text>
-<text x="937.2" y="224" class="title">0.7%</text>
+<rect x="923.7" y="154" width="59.1" height="112" rx="12" fill="#FFFFFF" stroke="#FF7A00" stroke-opacity="0.56"/>
+<text x="937.7" y="189" class="body">Java</text>
+<text x="937.7" y="224" class="title">0.7%</text>
 
-<rect x="988.6" y="154" width="59.4" height="112" rx="12" fill="#FFFFFF" stroke="#FF7A00" stroke-opacity="0.45"/>
-<text x="1002.6" y="189" class="body">CSS</text>
-<text x="1002.6" y="224" class="title">0.1%</text>
+<rect x="988.9" y="154" width="59.1" height="112" rx="12" fill="#FFFFFF" stroke="#FF7A00" stroke-opacity="0.45"/>
+<text x="1002.9" y="189" class="body">CSS</text>
+<text x="1002.9" y="224" class="title">0.1%</text>
 
 <text x="52" y="310" class="eyebrow">CODE, NOT SELF-RATING</text>
 <text x="52" y="336" class="small">calculated from GitHub language bytes across the visible codebase</text>
