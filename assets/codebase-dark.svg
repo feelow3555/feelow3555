@@ -13,16 +13,16 @@ text { font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Conso
 <text x="52" y="58" class="eyebrow">CODEBASE MAP</text>
 <text x="1048" y="58" class="small" text-anchor="end">REAL REPOSITORY LANGUAGE DATA</text>
 
-<text x="52" y="100" class="metric">20 repos</text>
+<text x="52" y="100" class="metric">19 repos</text>
 <text x="52" y="124" class="small">owned + contributed public repositories</text>
 
-<rect x="52.0" y="154" width="670.4" height="112" rx="12" fill="#11161D" stroke="#FF7A00" stroke-opacity="1.00"/>
+<rect x="52.0" y="154" width="670.3" height="112" rx="12" fill="#11161D" stroke="#FF7A00" stroke-opacity="1.00"/>
 <text x="66.0" y="189" class="body">Python</text>
-<text x="66.0" y="224" class="title">93.2%</text>
+<text x="66.0" y="224" class="title">93.3%</text>
 
-<rect x="728.4" y="154" width="59.1" height="112" rx="12" fill="#11161D" stroke="#FF7A00" stroke-opacity="0.89"/>
-<text x="742.4" y="189" class="body">JavaScript</text>
-<text x="742.4" y="224" class="title">3.0%</text>
+<rect x="728.3" y="154" width="59.1" height="112" rx="12" fill="#11161D" stroke="#FF7A00" stroke-opacity="0.89"/>
+<text x="742.3" y="189" class="body">JavaScript</text>
+<text x="742.3" y="224" class="title">3.0%</text>
 
 <rect x="793.5" y="154" width="59.1" height="112" rx="12" fill="#11161D" stroke="#FF7A00" stroke-opacity="0.78"/>
 <text x="807.5" y="189" class="body">TypeScript</text>
